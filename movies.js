@@ -34,6 +34,37 @@ const loading = document.querySelector('.loading');
 // initially get fav movies
 getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected)
 addPagination()
+openModal()
+
+function openModal() {
+    // Get the modal
+    let modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    let btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    let span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
+
 
 function addPagination() {
     pagination += 1
@@ -50,13 +81,20 @@ async function getMovies(url) {
 function showMovies(movies) {
     //clear main
     // main.innerHTML = "";
+    index = 0
     movies.forEach(movie => {
+        index += 1
         const {poster_path, title, vote_average, overview, backdrop_path} = movie;
         const movieEl = document.createElement('div');
         if (poster_path == null) {
         }
          else {
             movieEl.classList.add('movie');
+            movieEl.setAttribute('id',index)
+            let getTargetId = document.getElementById(index)
+            // movieEl.classList.add('portfolio-item');
+            // movieEl.setAttribute('data-toggle','modal')
+            // movieEl.setAttribute('data-target',"#preview")
             movieEl.innerHTML = `
         <img src="${imgPath + poster_path}" alt="${title}">
         <div class="movie-info">
@@ -73,7 +111,6 @@ function showMovies(movies) {
         }
     });
     console.log(movies)
-
 }
 
 
@@ -158,6 +195,7 @@ eng.addEventListener('click', (e) => {
 
 });
 
+
 // infinite scrolling
 window.addEventListener('scroll', () => {
     const {scrollTop, scrollHeight, clientHeight} = document.documentElement;
@@ -178,5 +216,7 @@ function showLoading() {
     setTimeout(getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected), 1000)
     addPagination()
 }
+
+
 
 

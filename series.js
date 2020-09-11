@@ -27,6 +27,8 @@ const note = document.getElementById('note');
 const fr = document.getElementById('fr');
 const eng = document.getElementById('eng');
 
+const nav = document.getElementById('mainNav')
+
 
 const search = document.getElementById('search');
 const loading = document.querySelector('.loading');
@@ -50,16 +52,16 @@ async function getSeries(url) {
 function showSeries(Series) {
     //clear main
     // main.innerHTML = "";
-    Series.forEach(movie => {
-        const {poster_path, original_name, vote_average, overview, backdrop_path} = movie;
-        const movieEl = document.createElement('div');
+    Series.forEach(serie => {
+        const {poster_path, original_name, vote_average, overview, backdrop_path} = serie;
+        const serieEl = document.createElement('div');
         if (poster_path == null) {
         }
         else {
-            movieEl.classList.add('movie');
-            movieEl.innerHTML = `
+            serieEl.classList.add('serie');
+            serieEl.innerHTML = `
         <img src="${imgPath + poster_path}" alt="${original_name}">
-        <div class="movie-info">
+        <div class="serie-info">
             <h3>${original_name}</h3>
             <span class="${getClassByRate(vote_average)}">${vote_average}</span>
         </div>
@@ -68,7 +70,7 @@ function showSeries(Series) {
         ${overview}
         </div>
         `;
-            main.appendChild(movieEl)
+            main.appendChild(serieEl)
             // loading.classList.remove('show');
         }
     });
