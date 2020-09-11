@@ -13,7 +13,7 @@ body {
 header {
     background-color: #373b69;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 1rem;
     color: #eeeeee;
     align-items: center;
@@ -26,19 +26,19 @@ header a {
 
 .search {
     background-color: transparent;
-    border: 2px solid #22254b;
+    border: 2px solid #83CFDF;
     border-radius: 2rem;
     padding: 0.5rem 1rem ;
     font-family: inherit;
     font-size: 1rem;
-    color: #eeeeee;
+    color: #eee;
 }
 
 
 
 .search:focus {
     outline: none;
-    background-color: #22254b;
+    background-color: #83CFDF;
 }
 
 main {
@@ -56,6 +56,7 @@ main {
     margin: 1rem;
     overflow: hidden;
     position: relative;
+
 }
 
 .movie img {
@@ -73,6 +74,7 @@ main {
 
 .movie-info h3 {
     margin: 0;
+    font-size: 1.1rem;
 }
 
 .movie-info span {
@@ -99,6 +101,7 @@ main {
     position: absolute;
     max-height: 100%;
     overflow: auto;
+    top: 25%;
     bottom: 0;
     left: 0;
     right: 0;
@@ -115,7 +118,42 @@ main {
     margin-top: 0;
 }
 
+#mainNav {
+    font-weight: 400;
+    background-color: #373b69;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem;
+    color: #eeeeee;
+    align-items: center;
+    text-decoration:none ;
+}
 
+#mainNav .navbar-brand {
+    color: #eeeeee;
+}
+
+#mainNav .navbar-brand:hover {
+    color: #83CFDF;
+}
+
+#mainNav .navbar-nav li.nav-item a.nav-link {
+    color: #fff9f2;
+}
+
+#mainNav .navbar-nav li.nav-item a.nav-link:hover {
+    color: #83CFDF;
+}
+
+
+#mainNav .navbar-nav li.nav-item a.nav-link.active {
+    color: #1abc9c
+}
+
+#mainNav img {
+    height: 1.5rem;
+    margin-right: 1rem;
+}
 
 /*.loading {*/
 /*    opacity: 0;*/

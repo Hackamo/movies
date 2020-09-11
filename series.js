@@ -4,12 +4,12 @@ const english = 'en-us'
 let languageSelected = french
 
 const api_url = 'https://api.themoviedb.org/3'
-let api_popularity = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
-let api_search = '/search/movie?&api_key=399af3fea42fd17a119ef910e475a6c5&query=';
-let api_vote = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=vote_count.desc&include_adult=false&include_video=false&page='
-let api_release = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=release_date.desc&include_adult=false&include_video=false&page='
-let api_revenue = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=revenue.desc&include_adult=false&include_video=false&page='
-let api_note = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=primary_release_date.desc&include_adult=false&include_video=false&page='
+let api_popularity = '/discover/tv?api_key=399af3fea42fd17a119ef910e475a6c5&original_name&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
+let api_search = '/search/tv?&api_key=399af3fea42fd17a119ef910e475a6c5&query=';
+let api_vote = '/discover/tv?api_key=399af3fea42fd17a119ef910e475a6c5&original_name&sort_by=vote_count.desc&include_adult=false&include_video=false&page='
+let api_release = '/discover/tv?api_key=399af3fea42fd17a119ef910e475a6c5&original_name&sort_by=release_date.desc&include_adult=false&include_video=false&page='
+let api_revenue = '/discover/tv?api_key=399af3fea42fd17a119ef910e475a6c5&original_name&sort_by=revenue.desc&include_adult=false&include_video=false&page='
+let api_note = '/discover/tv?api_key=399af3fea42fd17a119ef910e475a6c5&original_name&sort_by=primary_release_date.desc&include_adult=false&include_video=false&page='
 
 
 const imgPath = 'https://image.tmdb.org/t/p/w1280';
@@ -31,8 +31,8 @@ const eng = document.getElementById('eng');
 const search = document.getElementById('search');
 const loading = document.querySelector('.loading');
 
-// initially get fav movies
-getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected)
+// initially get fav Series
+getSeries(api_url + categorySelected + pagination + '&language=' + languageSelected)
 addPagination()
 
 function addPagination() {
@@ -40,27 +40,27 @@ function addPagination() {
 }
 
 
-async function getMovies(url) {
+async function getSeries(url) {
     const resp = await fetch(url);
     const respData = await resp.json();
-    showMovies(respData.results)
+    showSeries(respData.results)
 }
 
 
-function showMovies(movies) {
+function showSeries(Series) {
     //clear main
     // main.innerHTML = "";
-    movies.forEach(movie => {
-        const {poster_path, title, vote_average, overview, backdrop_path} = movie;
+    Series.forEach(movie => {
+        const {poster_path, original_name, vote_average, overview, backdrop_path} = movie;
         const movieEl = document.createElement('div');
         if (poster_path == null) {
         }
-         else {
+        else {
             movieEl.classList.add('movie');
             movieEl.innerHTML = `
-        <img src="${imgPath + poster_path}" alt="${title}">
+        <img src="${imgPath + poster_path}" alt="${original_name}">
         <div class="movie-info">
-            <h3>${title}</h3>
+            <h3>${original_name}</h3>
             <span class="${getClassByRate(vote_average)}">${vote_average}</span>
         </div>
         <div class="overview">
@@ -72,7 +72,7 @@ function showMovies(movies) {
             // loading.classList.remove('show');
         }
     });
-    console.log(movies)
+    console.log(Series)
 
 }
 
@@ -94,7 +94,7 @@ form.addEventListener('submit', (e) => {
     categorySelected = null
     if (searchTerm) {
         main.innerHTML = "";
-        getMovies(api_url + api_search + searchTerm)
+        getSeries(api_url + api_search + searchTerm)
         search.value = '';
     }
 });
@@ -104,7 +104,7 @@ popularity.addEventListener('click', (e) => {
     e.preventDefault();
     main.innerHTML = "";
     categorySelected = api_popularity;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected);
+    getSeries(api_url + categorySelected + pagination + '&language=' + languageSelected);
     addPagination();
 });
 
@@ -115,7 +115,7 @@ vote.addEventListener('click', (e) => {
     e.preventDefault();
     main.innerHTML = "";
     categorySelected = api_vote;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected);
+    getSeries(api_url + categorySelected + pagination + '&language=' + languageSelected);
     addPagination();
 });
 
@@ -124,9 +124,9 @@ release.addEventListener('click', (e) => {
     e.preventDefault();
     main.innerHTML = "";
     categorySelected = api_release;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected);
+    getSeries(api_url + categorySelected + pagination + '&language=' + languageSelected);
     addPagination();
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected);
+    getSeries(api_url + categorySelected + pagination + '&language=' + languageSelected);
     addPagination();
 });
 
@@ -135,7 +135,7 @@ revenue.addEventListener('click', (e) => {
     e.preventDefault();
     main.innerHTML = "";
     categorySelected = api_revenue;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected);
+    getSeries(api_url + categorySelected + pagination + '&language=' + languageSelected);
     addPagination();
 
 });
@@ -145,7 +145,7 @@ fr.addEventListener('click', (e) => {
     e.preventDefault();
     main.innerHTML = "";
     languageSelected = french;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected);
+    getSeries(api_url + categorySelected + pagination + '&language=' + languageSelected);
 
 });
 
@@ -154,7 +154,7 @@ eng.addEventListener('click', (e) => {
     e.preventDefault();
     main.innerHTML = "";
     languageSelected = english;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected);
+    getSeries(api_url + categorySelected + pagination + '&language=' + languageSelected);
 
 });
 
@@ -175,7 +175,7 @@ function showLoading() {
     // loading.classList.add('show');
 
     // load more data
-    setTimeout(getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected), 1000)
+    setTimeout(getSeries(api_url + categorySelected + pagination + '&language=' + languageSelected), 1000)
     addPagination()
 }
 
