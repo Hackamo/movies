@@ -1,4 +1,4 @@
-# a 2 hours project for fun
+# You have no idea what to watch? Check this:
 Site: https://hackamo-movies.netlify.app/  
 Design: https://uidesigndaily.com/posts/photoshop-movie-app-mobile-day-193  
 
