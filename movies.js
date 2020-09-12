@@ -14,7 +14,7 @@ let api_note = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by
 
 const imgPath = 'https://image.tmdb.org/t/p/w1280';
 let categorySelected = api_popularity
-
+let index = 0
 
 const main = document.getElementById('main');
 const form = document.getElementById('form');
@@ -31,39 +31,73 @@ const eng = document.getElementById('eng');
 const search = document.getElementById('search');
 const loading = document.querySelector('.loading');
 
+
+function testOpenModal() {
+    console.log("test");
+    $('#main').on('click', 'div.overview' & 'img', function (e) {
+        console.log(e.target.parentElement.id);
+    });
+
+}
+
 // initially get fav movies
+openModal()
 getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected)
 addPagination()
-openModal()
+
+// openModal()
+
 
 function openModal() {
     // Get the modal
-    let modal = document.getElementById("myModal");
+        let modal = document.getElementById("myModal");
 
     // Get the button that opens the modal
-    let btn = document.getElementById("myBtn");
+
+    let btn = document.getElementById("main");
 
     // Get the <span> element that closes the modal
     let span = document.getElementsByClassName("close")[0];
 
     // When the user clicks the button, open the modal
-    btn.onclick = function() {
+    btn.onclick = function () {
         modal.style.display = "block";
     }
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
+    span.onclick = function () {
         modal.style.display = "none";
     }
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target === modal) {
             modal.style.display = "none";
         }
     }
+
 }
 
+function movieId(movies) {
+
+    $('#main').on('click', 'div.overview' & 'img', function (e) {
+
+        const movieEl = document.getElementById(e.target.parentElement.id);
+        let modal = document.getElementById('myModal');
+
+        let movie1 = movies[0]
+
+        modal.innerHTML = `
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>${e.target.parentElement.id}</p>
+         
+    </div>
+        `;
+        main.appendChild(modal)
+
+    });
+}
 
 
 function addPagination() {
@@ -75,22 +109,22 @@ async function getMovies(url) {
     const resp = await fetch(url);
     const respData = await resp.json();
     showMovies(respData.results)
+    movieId(respData.results)
 }
 
 
 function showMovies(movies) {
     //clear main
     // main.innerHTML = "";
-    index = 0
+
     movies.forEach(movie => {
         index += 1
         const {poster_path, title, vote_average, overview, backdrop_path} = movie;
         const movieEl = document.createElement('div');
         if (poster_path == null) {
-        }
-         else {
+        } else {
             movieEl.classList.add('movie');
-            movieEl.setAttribute('id',index)
+            movieEl.setAttribute('id', "movie" + index)
             let getTargetId = document.getElementById(index)
             // movieEl.classList.add('portfolio-item');
             // movieEl.setAttribute('data-toggle','modal')
@@ -111,6 +145,29 @@ function showMovies(movies) {
         }
     });
     console.log(movies)
+}
+
+function showModals(movies) {
+    index = 0
+    movies.forEach(movie => {
+        index += 1
+        const {poster_path, title, vote_average, overview, backdrop_path} = movie;
+        const movieEl = document.createElement('div');
+        if (poster_path == null) {
+        } else {
+            movieEl.classList.add('movie');
+            // movieEl.setAttribute('id',"movie"+index)
+            movieEl.classList.add('modal');
+            movieEl.innerHTML = `
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>${title}</p>
+    </div>
+        `;
+            main.appendChild(movieEl)
+            // loading.classList.remove('show');
+        }
+    });
 }
 
 
@@ -144,7 +201,6 @@ popularity.addEventListener('click', (e) => {
     getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected);
     addPagination();
 });
-
 
 
 vote.addEventListener('click', (e) => {
@@ -213,7 +269,7 @@ function showLoading() {
     // loading.classList.add('show');
 
     // load more data
-    setTimeout(getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected), 1000)
+    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected)
     addPagination()
 }
 
