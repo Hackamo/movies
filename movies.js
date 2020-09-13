@@ -50,7 +50,7 @@ addPagination()
 
 function openModal() {
     // Get the modal
-        let modal = document.getElementById("myModal");
+    let modal = document.getElementById("myModal");
 
     // Get the button that opens the modal
 
@@ -79,23 +79,26 @@ function openModal() {
 }
 
 function movieId(movies) {
+    let {poster_path, title, vote_average, overview, backdrop_path,original_language,release_date,genre_ids} = movies;
 
     $('#main').on('click', 'div.overview' & 'img', function (e) {
-
         const movieEl = document.getElementById(e.target.parentElement.id);
         let modal = document.getElementById('myModal');
-
-        let movie1 = movies[0]
 
         modal.innerHTML = `
     <div class="modal-content">
         <span class="close">&times;</span>
-        <p>${e.target.parentElement.id}</p>
-         
+         <p>${movies[e.target.parentElement.id].title}</p>
+         <p>Résumé: ${movies[e.target.parentElement.id].overview}</p>
+         <p>Langue de sortie: ${movies[e.target.parentElement.id].original_language}</p>
+         <p>Note: ${movies[e.target.parentElement.id].vote_average}</p>
+         <p>Date de sortie: ${movies[e.target.parentElement.id].release_date}</p>
+         <p>Nombre de votes: ${movies[e.target.parentElement.id].vote_count}</p>
+         <p>Genre: ${movies[e.target.parentElement.id].genre_ids}</p>
+        <img src="${imgPath + movies[e.target.parentElement.id].backdrop_path}" alt="${title}">
     </div>
         `;
         main.appendChild(modal)
-
     });
 }
 
@@ -118,13 +121,13 @@ function showMovies(movies) {
     // main.innerHTML = "";
 
     movies.forEach(movie => {
-        index += 1
+
         const {poster_path, title, vote_average, overview, backdrop_path} = movie;
         const movieEl = document.createElement('div');
         if (poster_path == null) {
         } else {
             movieEl.classList.add('movie');
-            movieEl.setAttribute('id', "movie" + index)
+            movieEl.setAttribute('id', index)
             let getTargetId = document.getElementById(index)
             // movieEl.classList.add('portfolio-item');
             // movieEl.setAttribute('data-toggle','modal')
@@ -143,31 +146,9 @@ function showMovies(movies) {
             main.appendChild(movieEl)
             // loading.classList.remove('show');
         }
+        index += 1
     });
     console.log(movies)
-}
-
-function showModals(movies) {
-    index = 0
-    movies.forEach(movie => {
-        index += 1
-        const {poster_path, title, vote_average, overview, backdrop_path} = movie;
-        const movieEl = document.createElement('div');
-        if (poster_path == null) {
-        } else {
-            movieEl.classList.add('movie');
-            // movieEl.setAttribute('id',"movie"+index)
-            movieEl.classList.add('modal');
-            movieEl.innerHTML = `
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>${title}</p>
-    </div>
-        `;
-            main.appendChild(movieEl)
-            // loading.classList.remove('show');
-        }
-    });
 }
 
 
