@@ -10,12 +10,14 @@ let api_vote = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by
 let api_release = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=release_date.desc&include_adult=false&include_video=false&page='
 let api_revenue = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=revenue.desc&include_adult=false&include_video=false&page='
 let api_note = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=primary_release_date.desc&include_adult=false&include_video=false&page='
-
+let api_genre_fr = '/genre/movie/list?api_key=399af3fea42fd17a119ef910e475a6c5&language=fr'
 
 const imgPath = 'https://image.tmdb.org/t/p/w1280';
 let categorySelected = api_popularity
 let index = 0
-
+let listMovies = []
+let genresResp = []
+let genres = []
 const main = document.getElementById('main');
 const form = document.getElementById('form');
 
@@ -26,26 +28,15 @@ const revenue = document.getElementById('revenue');
 const note = document.getElementById('note');
 const fr = document.getElementById('fr');
 const eng = document.getElementById('eng');
-
-
 const search = document.getElementById('search');
 const loading = document.querySelector('.loading');
 
-
-function testOpenModal() {
-    console.log("test");
-    $('#main').on('click', 'div.overview' & 'img', function (e) {
-        console.log(e.target.parentElement.id);
-    });
-
-}
 
 // initially get fav movies
 openModal()
 getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected)
 addPagination()
-
-// openModal()
+getMoviesGenre(api_url + api_genre_fr)
 
 
 function openModal() {
@@ -79,7 +70,11 @@ function openModal() {
 }
 
 function movieId(movies) {
-    let {poster_path, title, vote_average, overview, backdrop_path,original_language,release_date,genre_ids} = movies;
+    movies.forEach(movie => {
+        listMovies.push(movie)
+    })
+
+    // let {poster_path, title, vote_average, overview, backdrop_path,original_language,release_date,genre_ids} = movies;
 
     $('#main').on('click', 'div.overview' & 'img', function (e) {
         const movieEl = document.getElementById(e.target.parentElement.id);
@@ -88,14 +83,21 @@ function movieId(movies) {
         modal.innerHTML = `
     <div class="modal-content">
         <span class="close">&times;</span>
-         <p>${movies[e.target.parentElement.id].title}</p>
-         <p>Résumé: ${movies[e.target.parentElement.id].overview}</p>
-         <p>Langue de sortie: ${movies[e.target.parentElement.id].original_language}</p>
-         <p>Note: ${movies[e.target.parentElement.id].vote_average}</p>
-         <p>Date de sortie: ${movies[e.target.parentElement.id].release_date}</p>
-         <p>Nombre de votes: ${movies[e.target.parentElement.id].vote_count}</p>
-         <p>Genre: ${movies[e.target.parentElement.id].genre_ids}</p>
-        <img src="${imgPath + movies[e.target.parentElement.id].backdrop_path}" alt="${title}">
+        
+        <img src="${imgPath + listMovies[e.target.parentElement.id].backdrop_path}" alt="${listMovies[e.target.parentElement.id].title}">
+        
+        <div class="movie-modal">
+            <img src="${imgPath + listMovies[e.target.parentElement.id].poster_path}" alt="${listMovies[e.target.parentElement.id].title}">
+
+             <div class="movie-modal-note">${listMovies[e.target.parentElement.id].vote_average}</div>
+             <div class="movie-modal-title">${listMovies[e.target.parentElement.id].title}</div>
+             <div class="movie-modal-overview">${listMovies[e.target.parentElement.id].overview}</div>
+             <div class = movie-modal-release-date>Date de sortie: ${listMovies[e.target.parentElement.id].release_date}</div>
+<!--             <div class="movie-modal-votes">${listMovies[e.target.parentElement.id].vote_count}</div>-->
+             <p>Genre: ${listMovies[e.target.parentElement.id].genre_ids}</p>
+<!--             <p>${genres[0]}</p>-->
+         </div>
+         
     </div>
         `;
         main.appendChild(modal)
@@ -113,6 +115,19 @@ async function getMovies(url) {
     const respData = await resp.json();
     showMovies(respData.results)
     movieId(respData.results)
+}
+
+async function getMoviesGenre(url) {
+    const resp = await fetch(url);
+    const respData = await resp.json();
+    let keys = Object.keys(respData)
+    keys.forEach(function (key){
+        genresResp.push(respData[key])
+    })
+    let genresTrue = genresResp[0]
+    genresTrue.forEach(genre => {
+        genres.push({key:genre.id, value:genre.name})
+    })
 }
 
 
