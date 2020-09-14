@@ -87,7 +87,6 @@ function movieId(movies) {
         <img src="${imgPath + listMovies[e.target.parentElement.id].backdrop_path}" alt="${listMovies[e.target.parentElement.id].title}">
         
         <div class="movie-modal">
-            <img src="${imgPath + listMovies[e.target.parentElement.id].poster_path}" alt="${listMovies[e.target.parentElement.id].title}">
 
              <div class="movie-modal-note">${listMovies[e.target.parentElement.id].vote_average}</div>
              <div class="movie-modal-title">${listMovies[e.target.parentElement.id].title}</div>
