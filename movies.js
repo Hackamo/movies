@@ -41,7 +41,6 @@ openModal();
 getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
 addPagination();
 getMoviesGenre(api_url + api_genre_fr).then(r => console.log(r));
-printCast()
 
 function openModal() {
     let btn = document.getElementById("main");
@@ -73,8 +72,8 @@ function movieId(movies) {
         let modal = document.getElementById('myModal');
         let movie = listMovies[e.target.parentElement.id];
         let {id, title, vote_average, overview, backdrop_path, release_date, genre_ids, vote_count} = movie;
-        // getMoviesCast(api_url + '/movie/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5').then(r => console.log(r))
 
+        // getMoviesCast(api_url + '/movie/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5').then(r => console.log(r))
         // getMoviesVideo(api_url + '/movie/' +  movie.id + '/videos?api_key=399af3fea42fd17a119ef910e475a6c5');
 
 
@@ -112,7 +111,7 @@ async function getMovies(url) {
     const resp = await fetch(url);
     const respData = await resp.json();
     showMovies(respData.results);
-     movieId(respData.results);
+    movieId(respData.results);
 }
 
 async function getMoviesGenre(url) {
