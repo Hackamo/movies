@@ -133,8 +133,11 @@ function addCastingPhoto() {
         div.setAttribute('id', 'nameActor' + index)
         div.classList.add('casting-photo')
         div.innerText = casting[index]
+        if (linkphotos === ''){
 
-        img.src = imgPath + linkphotos;
+        }else{
+            img.src = imgPath + linkphotos;
+        }
         img.alt = linkphotos;
 
         div.appendChild(img);

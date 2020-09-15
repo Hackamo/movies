@@ -5,13 +5,13 @@
 }
 
 body {
-    background-color: #373b69;
+    background-color: #1e1e1e;
     font-family: "Poppins", sans-serif;
     margin: 0;
 }
 
 header {
-    background-color: #373b69;
+    background-color: #1e1e1e;
     display: flex;
     justify-content: space-evenly;
     padding: 1rem;
@@ -26,7 +26,7 @@ header a {
 
 .search {
     background-color: transparent;
-    border: 2px solid #83CFDF;
+    border: 2px solid #555555;
     border-radius: 2rem;
     padding: 0.5rem 1rem;
     font-family: inherit;
@@ -37,7 +37,7 @@ header a {
 
 .search:focus {
     outline: none;
-    background-color: #83CFDF;
+    background-color: #555555;
 }
 
 #main {
@@ -47,7 +47,7 @@ header a {
 }
 
 .movie {
-    background-color: #595c8f;
+    background-color: #555555;
     color: #eee;
     height: 410px;
     width: 200px;
@@ -79,7 +79,7 @@ header a {
 }
 
 .movie-info span {
-    background-color: #373b69;
+    background-color: #1e1e1e;
     border-radius: 3px;
     padding: 0.25rem 0.5rem;
     font-weight: bold;
@@ -98,7 +98,7 @@ header a {
 }
 
 .serie {
-    background-color: #595c8f;
+    background-color: #555555;
     color: #eee;
     height: 410px;
     width: 200px;
@@ -129,7 +129,7 @@ header a {
 }
 
 .serie-info span {
-    background-color: #373b69;
+    background-color: #1e1e1e;
     border-radius: 3px;
     padding: 0.25rem 0.5rem;
     font-weight: bold;
@@ -178,20 +178,20 @@ header a {
 
 #mainNav {
     font-weight: 400;
-    background-color: #373b69;
+    background-color: #eee;
     display: flex;
     justify-content: space-evenly;
-    color: #eeeeee;
     align-items: center;
     text-decoration: none;
+    color: #1e1e1e;
 }
 
 #mainNav .navbar-brand {
-    color: #eeeeee;
+    color: #1e1e1e;
 }
 
 #mainNav .navbar-brand:hover {
-    color: #83CFDF;
+    color: #555555;
 }
 
 #mainNav .navbar-nav li.nav-item a.nav-link {
@@ -199,12 +199,12 @@ header a {
 }
 
 #mainNav .navbar-nav li.nav-item a.nav-link:hover {
-    color: #83CFDF;
+    color: #555555;
 }
 
 
 #mainNav .navbar-nav li.nav-item a.nav-link.active {
-    color: #1abc9c
+    color: #555555
 }
 
 #mainNav img {
@@ -357,7 +357,7 @@ header a {
 /*}*/
 
 /*.ball {*/
-/*    background-color: #595c8f;*/
+/*    background-color: #555555;*/
 /*    border-radius: 50%;*/
 /*    margin: 5px;*/
 /*    height: 10px;*/
