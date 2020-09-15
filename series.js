@@ -74,8 +74,8 @@ function movieId(movies) {
     $('#main').on('click', 'img', function (e) {
         let modal = document.getElementById('myModal');
         let movie = listMovies[e.target.parentElement.id];
-        let {id, title, vote_average, overview, backdrop_path, release_date, genre_ids, vote_count} = movie;
-
+        let {id, name, vote_average, overview, backdrop_path, first_air_date, genre_ids, vote_count} = movie;
+        console.log(movies)
 
         getMoviesCast( api_url + '/tv/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5');
         getMoviesVideo(api_url + '/tv/' + movie.id + '/videos?api_key=399af3fea42fd17a119ef910e475a6c5');
@@ -84,13 +84,13 @@ function movieId(movies) {
         modal.innerHTML = `
     <div class="modal-content">
         
-        <img src="${imgPath + backdrop_path}" alt="${title}">
+        <img src="${imgPath + backdrop_path}" alt="${name}">
         
         <div id="movie-modal" class="movie-modal">
              <div class="movie-modal-note">${vote_average}</div>
              <div class="movie-modal-votes">${vote_count} votes</div>
-             <div class="movie-modal-title">${title}</div>
-             <div class = movie-modal-release-date>Date de sortie: ${release_date}</div>
+             <div class="movie-modal-title">${name}</div>
+             <div class = movie-modal-release-date>Date de sortie: ${first_air_date}</div>
              <div class="genre">${showMoviesGenre(genre_ids)}</div>
              <div class="movie-modal-overview">${overview}</div>
 <!--             <div>${id}</div>-->
@@ -219,16 +219,16 @@ function showMoviesGenre(genreTargeted) {
 function showMovies(movies) {
     movies.forEach(movie => {
 
-        const {poster_path, title, vote_average, overview, backdrop_path} = movie;
+        const {poster_path, name, vote_average, overview, backdrop_path} = movie;
         const movieEl = document.createElement('div');
         if (poster_path == null) {
         } else {
             movieEl.classList.add('movie');
             movieEl.setAttribute('id', index);
             movieEl.innerHTML = `
-        <img src="${imgPath + poster_path}" alt="${title}">
+        <img src="${imgPath + poster_path}" alt="${name}">
         <div class="movie-info">
-            <h3>${title}</h3>
+            <h3>${name}</h3>
             <span class="${getClassByRate(vote_average)}">${vote_average}</span>
         </div>
         <div class="overview">${overview}</div>
