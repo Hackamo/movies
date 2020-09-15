@@ -21,6 +21,8 @@ let index = 0;
 let listMovies = [];
 let genresResp = [];
 let genres = [];
+let casting = [];
+let casting_photos = [];
 
 
 const main = document.getElementById('main');
@@ -73,8 +75,8 @@ function movieId(movies) {
         let movie = listMovies[e.target.parentElement.id];
         let {id, title, vote_average, overview, backdrop_path, release_date, genre_ids, vote_count} = movie;
 
-        // getMoviesCast(api_url + '/movie/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5').then(r => console.log(r))
-        // getMoviesVideo(api_url + '/movie/' +  movie.id + '/videos?api_key=399af3fea42fd17a119ef910e475a6c5');
+        getMoviesCast(api_url + '/movie/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5').then(r => console.log(r))
+        // getMoviesVideo(api_url + '/movie/' + movie.id + '/videos?api_key=399af3fea42fd17a119ef910e475a6c5').then(r => console.log(r));
 
 
         console.log(movie);
@@ -90,12 +92,19 @@ function movieId(movies) {
              <div class="movie-modal-overview">${overview}</div>
 <!--             <div class="movie-modal-votes">${vote_count}</div>-->
              <p>${showMoviesGenre(genre_ids)}</p>
-             <div>${id}</div>
+<!--             <div>${id}</div>-->
+             
+             <div class="movie-modal-casting">Casting: ${casting}</div>
+              <img src="${imgPath + casting_photos[0]}" alt="${casting[0]}"/>
+
 <!--             <iframe  src="https://www.youtube.com/embed/${video_key}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>         -->
 
          </div>
     </div>
+        
+
         `;
+        casting = [];
         main.appendChild(modal);
     });
 }
@@ -141,15 +150,16 @@ async function getMoviesCast(url) {
 }
 
 function showMovieCast(caster) {
-    let casting = [];
+    console.log(caster)
+
     caster.forEach(cast => {
         casting.push(" " + cast.name);
     });
-    let casting_String = ''
-    casting.forEach(cast => {
-        casting_String.concat()
+
+    caster.forEach(cast => {
+        casting_photos.push(cast.profile_path)
     })
-    return (casting_String)
+    console.log(casting_photos[0])
 }
 
 function showMoviesVideo(videos) {
