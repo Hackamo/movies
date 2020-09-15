@@ -66,12 +66,16 @@ function openModal() {
     };
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function movieId(movies) {
     movies.forEach(movie => {
         listMovies.push(movie);
     });
 
-    $('#main').on('click', 'img', function (e) {
+    $('#main').on('click', 'div', async function (e) {
         let modal = document.getElementById('myModal');
         let movie = listMovies[e.target.parentElement.id];
         let {id, name, vote_average, overview, backdrop_path, first_air_date, genre_ids, vote_count} = movie;
@@ -79,7 +83,7 @@ function movieId(movies) {
 
         getMoviesCast( api_url + '/tv/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5');
         getMoviesVideo(api_url + '/tv/' + movie.id + '/videos?api_key=399af3fea42fd17a119ef910e475a6c5');
-
+        await sleep(100)
 
         modal.innerHTML = `
     <div class="modal-content">

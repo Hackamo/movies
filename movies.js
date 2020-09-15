@@ -71,7 +71,7 @@ function movieId(movies) {
         listMovies.push(movie);
     });
 
-    $('#main').on('click', 'img', function (e) {
+    $('#main').on('click', 'div', async function (e) {
         let modal = document.getElementById('myModal');
         let movie = listMovies[e.target.parentElement.id];
         let {id, title, vote_average, overview, backdrop_path, release_date, genre_ids, vote_count} = movie;
@@ -79,6 +79,8 @@ function movieId(movies) {
 
         getMoviesCast( api_url + '/movie/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5');
         getMoviesVideo(api_url + '/movie/' + movie.id + '/videos?api_key=399af3fea42fd17a119ef910e475a6c5');
+
+        await sleep(100)
 
 
         modal.innerHTML = `
@@ -108,6 +110,11 @@ function movieId(movies) {
         // casting = [];
         main.appendChild(modal);
     });
+
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 
@@ -142,7 +149,14 @@ async function getMovies(url) {
     const resp = await fetch(url);
     const respData = await resp.json();
     showMovies(respData.results);
+    await sleep(1000);
+
     movieId(respData.results);
+    await sleep(1000);
+
+    console.log(video_key)
+    console.log(crew)
+
 }
 
 async function getMoviesGenre(url) {
