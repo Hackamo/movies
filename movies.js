@@ -71,16 +71,15 @@ function movieId(movies) {
         listMovies.push(movie);
     });
 
-
     $('#main').on('click', 'img', function (e) {
         let modal = document.getElementById('myModal');
         let movie = listMovies[e.target.parentElement.id];
         let {id, title, vote_average, overview, backdrop_path, release_date, genre_ids, vote_count} = movie;
 
 
-        getMoviesCast(api_url + '/movie/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5');
+        getMoviesCast( api_url + '/movie/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5');
         getMoviesVideo(api_url + '/movie/' + movie.id + '/videos?api_key=399af3fea42fd17a119ef910e475a6c5');
-        // console.log(movie);
+
 
         modal.innerHTML = `
     <div class="modal-content">
@@ -97,7 +96,7 @@ function movieId(movies) {
 <!--             <div>${id}</div>-->
              <iframe  src="https://www.youtube.com/embed/${video_key}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>         
 <!--             <div class="movie-modal-casting">Casting: ${casting}</div>-->
-                <div class="movie-modal-crew">Direction: ${crew}</div>
+             <div class="movie-modal-crew">Direction: ${crew}</div>
              <div id="casting">
              <div id="casting-content"></div>
              </div>
@@ -106,8 +105,7 @@ function movieId(movies) {
     </div>
         `;
         addCastingPhoto()
-        casting = [];
-        crew = [];
+        // casting = [];
         main.appendChild(modal);
     });
 }
@@ -137,7 +135,6 @@ function addCastingPhoto() {
         index += 1
 
     })
-    casting_photos = []
 }
 
 
@@ -176,6 +173,7 @@ async function getMoviesCast(url) {
 }
 
 function showMovieCrew(crewList) {
+    crew = [];
     crewList.forEach(cast => {
         if (cast.department === "Directing"){
             crew.push(" " + cast.name);
@@ -189,6 +187,8 @@ function showMovieCrew(crewList) {
 }
 
 function showMovieCast(caster) {
+    casting = []
+    casting_photos = []
     caster.forEach(cast => {
         casting.push(" " + cast.name);
     });
@@ -264,45 +264,45 @@ form.addEventListener('submit', (e) => {
     }
 });
 
-popularity.addEventListener('click', (e) => {
-    pagination = 1;
-    e.preventDefault();
-    main.innerHTML = "";
-    categorySelected = api_popularity;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
-    addPagination();
-});
-
-
-vote.addEventListener('click', (e) => {
-    pagination = 1;
-    e.preventDefault();
-    main.innerHTML = "";
-    categorySelected = api_vote;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
-    addPagination();
-});
-
-release.addEventListener('click', (e) => {
-    pagination = 1;
-    e.preventDefault();
-    main.innerHTML = "";
-    categorySelected = api_release;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
-    addPagination();
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
-    addPagination();
-});
-
-revenue.addEventListener('click', (e) => {
-    pagination = 1;
-    e.preventDefault();
-    main.innerHTML = "";
-    categorySelected = api_revenue;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
-    addPagination();
-
-});
+// popularity.addEventListener('click', (e) => {
+//     pagination = 1;
+//     e.preventDefault();
+//     main.innerHTML = "";
+//     categorySelected = api_popularity;
+//     getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
+//     addPagination();
+// });
+//
+//
+// vote.addEventListener('click', (e) => {
+//     pagination = 1;
+//     e.preventDefault();
+//     main.innerHTML = "";
+//     categorySelected = api_vote;
+//     getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
+//     addPagination();
+// });
+//
+// release.addEventListener('click', (e) => {
+//     pagination = 1;
+//     e.preventDefault();
+//     main.innerHTML = "";
+//     categorySelected = api_release;
+//     getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
+//     addPagination();
+//     getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
+//     addPagination();
+// });
+//
+// revenue.addEventListener('click', (e) => {
+//     pagination = 1;
+//     e.preventDefault();
+//     main.innerHTML = "";
+//     categorySelected = api_revenue;
+//     getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
+//     addPagination();
+//
+// });
 
 // fr.addEventListener('click', (e) => {
 //     pagination = 1;
