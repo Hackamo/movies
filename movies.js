@@ -10,19 +10,21 @@ let api_vote = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by
 let api_release = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=release_date.desc&include_adult=false&include_video=false&page=';
 let api_revenue = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=revenue.desc&include_adult=false&include_video=false&page=';
 // let api_note = '/discover/movie?api_key=399af3fea42fd17a119ef910e475a6c5&sort_by=primary_release_date.desc&include_adult=false&include_video=false&page=';
-let api_genre_fr = '/genre/movie/list?api_key=399af3fea42fd17a119ef910e475a6c5&language=fr';
+let api_genre_fr = '/genre/movie/list?api_key=399af3fea42fd17a119ef910e475a6c5';
 // let api_cast_fr = '';
 let video_key = '';
 
 
-const imgPath = 'https://image.tmdb.org/t/p/w1280';
+const imgPath = 'https://image.tmdb.org/t/p/w1280/';
 let categorySelected = api_popularity;
 let index = 0;
 let listMovies = [];
 let genresResp = [];
 let genres = [];
 let casting = [];
+let crew = [];
 let casting_photos = [];
+let crew_photos = [];
 
 
 const main = document.getElementById('main');
@@ -33,8 +35,8 @@ const vote = document.getElementById('vote');
 const release = document.getElementById('release');
 const revenue = document.getElementById('revenue');
 // const note = document.getElementById('note');
-const fr = document.getElementById('fr');
-const eng = document.getElementById('eng');
+// const fr = document.getElementById('fr');
+// const eng = document.getElementById('eng');
 const search = document.getElementById('search');
 // const loading = document.querySelector('.loading');
 
@@ -42,7 +44,7 @@ const search = document.getElementById('search');
 openModal();
 getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
 addPagination();
-getMoviesGenre(api_url + api_genre_fr).then(r => console.log(r));
+getMoviesGenre(api_url + api_genre_fr + '&language=' + languageSelected).then(r => console.log(r));
 
 function openModal() {
     let btn = document.getElementById("main");
@@ -75,44 +77,67 @@ function movieId(movies) {
         let movie = listMovies[e.target.parentElement.id];
         let {id, title, vote_average, overview, backdrop_path, release_date, genre_ids, vote_count} = movie;
 
-        getMoviesCast(api_url + '/movie/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5').then(r => console.log(r))
-        // getMoviesVideo(api_url + '/movie/' + movie.id + '/videos?api_key=399af3fea42fd17a119ef910e475a6c5').then(r => console.log(r));
 
+        getMoviesCast(api_url + '/movie/' + movie.id + '/credits?api_key=399af3fea42fd17a119ef910e475a6c5');
+        getMoviesVideo(api_url + '/movie/' + movie.id + '/videos?api_key=399af3fea42fd17a119ef910e475a6c5');
+        // console.log(movie);
 
-        console.log(movie);
         modal.innerHTML = `
     <div class="modal-content">
         
         <img src="${imgPath + backdrop_path}" alt="${title}">
         
-        <div class="movie-modal">
+        <div id="movie-modal" class="movie-modal">
              <div class="movie-modal-note">${vote_average}</div>
+             <div class="movie-modal-votes">${vote_count} votes</div>
              <div class="movie-modal-title">${title}</div>
-              <div class = movie-modal-release-date>Date de sortie: ${release_date}</div>
+             <div class = movie-modal-release-date>Date de sortie: ${release_date}</div>
+             <div class="genre">${showMoviesGenre(genre_ids)}</div>
              <div class="movie-modal-overview">${overview}</div>
-<!--             <div class="movie-modal-votes">${vote_count}</div>-->
-             <p>${showMoviesGenre(genre_ids)}</p>
 <!--             <div>${id}</div>-->
-             
-             <div class="movie-modal-casting">Casting: ${casting}</div>
-              <img src="${imgPath + casting_photos[0]}" alt="${casting[0]}"/>
-
-<!--             <iframe  src="https://www.youtube.com/embed/${video_key}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>         -->
+             <iframe  src="https://www.youtube.com/embed/${video_key}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>         
+<!--             <div class="movie-modal-casting">Casting: ${casting}</div>-->
+                <div class="movie-modal-crew">Direction: ${crew}</div>
+             <div id="casting">
+             <div id="casting-content"></div>
+             </div>
 
          </div>
     </div>
-        
-
         `;
+        addCastingPhoto()
         casting = [];
+        crew = [];
         main.appendChild(modal);
     });
 }
 
 
-
 function addPagination() {
     pagination += 1;
+}
+
+function addCastingPhoto() {
+    let index = 0;
+    let myCast = document.getElementById('casting-content');
+
+    casting_photos.forEach(linkphotos => {
+
+        let img = new Image();
+        let div = document.createElement('div')
+        div.setAttribute('id', 'nameActor' + index)
+        div.classList.add('casting-photo')
+        div.innerText = casting[index]
+
+        img.src = imgPath + linkphotos;
+        img.alt = linkphotos;
+
+        div.appendChild(img);
+        myCast.appendChild(div)
+        index += 1
+
+    })
+    casting_photos = []
 }
 
 
@@ -147,11 +172,23 @@ async function getMoviesCast(url) {
     const resp = await fetch(url);
     const respData = await resp.json();
     showMovieCast(respData.cast);
+    showMovieCrew(respData.crew);
+}
+
+function showMovieCrew(crewList) {
+    crewList.forEach(cast => {
+        if (cast.department === "Directing"){
+            crew.push(" " + cast.name);
+        }
+    });
+
+    crewList.forEach(cast => {
+        crew_photos.push(cast.profile_path)
+    })
+
 }
 
 function showMovieCast(caster) {
-    console.log(caster)
-
     caster.forEach(cast => {
         casting.push(" " + cast.name);
     });
@@ -159,7 +196,7 @@ function showMovieCast(caster) {
     caster.forEach(cast => {
         casting_photos.push(cast.profile_path)
     })
-    console.log(casting_photos[0])
+
 }
 
 function showMoviesVideo(videos) {
@@ -194,18 +231,14 @@ function showMovies(movies) {
             <h3>${title}</h3>
             <span class="${getClassByRate(vote_average)}">${vote_average}</span>
         </div>
-        <div class="overview">
-        <h3>Résumé</h3>
-        ${overview}
-        </div>
+        <div class="overview">${overview}</div>
         `;
             main.appendChild(movieEl);
             // loading.classList.remove('show');
         }
         index += 1;
     });
-    console.log(movies);
-    console.log(typeof movies);
+    // console.log(movies);
 }
 
 
@@ -226,7 +259,7 @@ form.addEventListener('submit', (e) => {
     categorySelected = null
     if (searchTerm) {
         main.innerHTML = "";
-        getMovies(api_url + api_search + searchTerm).then(r => console.log(r))
+        getMovies(api_url + api_search + searchTerm + '&language=' + languageSelected).then(r => console.log(r))
         search.value = '';
     }
 });
@@ -271,23 +304,23 @@ revenue.addEventListener('click', (e) => {
 
 });
 
-fr.addEventListener('click', (e) => {
-    pagination = 1;
-    e.preventDefault();
-    main.innerHTML = "";
-    languageSelected = french;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
-
-});
-
-eng.addEventListener('click', (e) => {
-    pagination = 1;
-    e.preventDefault();
-    main.innerHTML = "";
-    languageSelected = english;
-    getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
-
-});
+// fr.addEventListener('click', (e) => {
+//     pagination = 1;
+//     e.preventDefault();
+//     main.innerHTML = "";
+//     languageSelected = french;
+//     getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
+//
+// });
+//
+// eng.addEventListener('click', (e) => {
+//     pagination = 1;
+//     e.preventDefault();
+//     main.innerHTML = "";
+//     languageSelected = english;
+//     getMovies(api_url + categorySelected + pagination + '&language=' + languageSelected).then(r => console.log(r));
+//
+// });
 
 
 // infinite scrolling

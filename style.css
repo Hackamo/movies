@@ -40,7 +40,7 @@ header a {
     background-color: #83CFDF;
 }
 
-main {
+#main {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -57,6 +57,7 @@ main {
     overflow: hidden;
     position: relative;
     cursor: pointer;
+    justify-content: center;
 }
 
 .movie img {
@@ -225,13 +226,15 @@ main {
     background-color: rgba(0, 0, 0, 0.4); /* #030315 w/ opacity */
 }
 
+
+
+
 /* Modal Content/Box */
 .modal-content {
     background-color: transparent;
     margin: 10% auto; /* 15% from the top and centered */
-    width: 50%; /* Could be more or less, depending on screen size */
+    width: 65%; /* Could be more or less, depending on screen size */
     border: 0;
-
 }
 
 .modal-content img {
@@ -246,11 +249,6 @@ main {
     color: #030315;
     overflow: auto;
     margin: -10% 2rem 2rem;
-}
-
-.movie-modal img {
-    width: 30%;
-
 }
 
 .movie-modal iframe {
@@ -274,13 +272,25 @@ main {
     padding: 0.5rem;
     margin: 0.5rem;
     text-align: center;
+
 }
 
 .movie-modal-votes {
     font-size: 0.8rem;
+    color: #aaaaaa;
+}
+
+.genre {
+    background-color: #708ED2;
+    width: fit-content;
+    border-radius: 10px;
+    padding: 0 0.5rem;
 }
 
 .movie-modal-overview {
+    padding: 1rem 0;
+}
+.movie-modal-crew {
     padding: 1rem 0;
 }
 
@@ -290,6 +300,25 @@ main {
 
 .movie-modal-casting img {
     width: 50px;
+}
+
+#casting-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.casting-photo {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    text-align: center;
+    width: 15%;
+    margin: 0.3rem .5rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+
 }
 
 .movie-modal-release-date {
